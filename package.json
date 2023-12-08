@@ -10,7 +10,7 @@
     "start": "node app.js"
   },
   "keywords": [],
-  "author": "Swayam Vasavada",
+  "author": "Maximilian Schwarzmüller (Academind GmbH)",
   "license": "MIT",
   "dependencies": {
     "bcryptjs": "^2.4.3",
