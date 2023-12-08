@@ -1,0 +1,15 @@
+<article class="task-item <%= task.status %>">
+  <h2>
+    <%= task.title %>
+  </h2>
+  <p>
+    <%= task.summary %>
+  </p>
+  <div class="task-actions">
+    <form action="/task/<%= task._id %>/delete" method="POST">
+      <button class="btn btn-alt task-action">Delete</button>
+    </form>
+    <a href="task/<%= task._id %>/edit" class="task-action">Edit</a>
+    <a class="btn task-action" href="task/<%= task._id %>">View</a>
+  </div>
+</article>

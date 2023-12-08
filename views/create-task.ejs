@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <%- include('includes/head', { title: 'Add task' }) %>
+    <link rel="stylesheet" href="/styles/forms.css">
+</head>
+
+<body>
+  <%- include('includes/header') %>
+    <main>
+      <h1>Add a Task</h1>
+      <form action="/tasks" method="POST" enctype="multipart/form-data">
+        <div class="form-control">
+          <label for="title">Title</label>
+          <input type="text" id="title" name="title" required>
+        </div>
+        <div class="form-control">
+          <label for="summary">Summary</label>
+          <input type="text" id="summary" name="summary" required maxlength="255">
+        </div>
+        <div class="form-control">
+          <label for="file">
+            Choose File
+          </label>
+          <input type="file" name="file" id="file" title="Choose">
+          </label>
+        </div>
+        <div class="form-control">
+          <label for="desc">Post Content</label>
+          <textarea id="desc" name="desc" required rows="5"></textarea>
+        </div>
+        <div class="form-control" id="status">
+          <label for="status">
+            Mark as:
+          </label>
+          <select name="status" id="status">
+            <option value="incomplete">
+              Incomplete
+            </option>
+            <option value="completed">
+              Completed
+            </option>
+          </select>
+          </label>
+        </div>
+        <button class="btn">Add Task</button>
+      </form>
+    </main>
+</body>
+
+</html>

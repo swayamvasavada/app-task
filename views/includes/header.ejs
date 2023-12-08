@@ -1,0 +1,32 @@
+<header id="main-header">
+  <div id="logo">
+    <a href="/">To Do List</a>
+  </div>
+  <nav>
+    <ul>
+      <% if (!locals.isAuth) { %> 
+        <li>
+          <a href="/signup">Sign up</a>
+        </li>
+        <li>
+          <a href="/login">Login</a>
+        </li>
+      <% } %>
+
+      <% if (locals.isAuth) { %>
+        <li>
+          <a href="/tasks">All Tasks</a>
+        </li>
+        <li>
+          <a href="/add-task">Add Task</a>
+        </li>
+        <li>
+          <form action="/logout" method="post">
+            <button class="btn-alt">logout</button>
+            <!-- <input type="submit" value="logout"> -->
+          </form>
+        </li>
+      <% } %>
+    </ul>
+  </nav>
+</header>

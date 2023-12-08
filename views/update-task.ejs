@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <%- include('includes/head', { title: 'Update Task' }) %>
+    <link rel="stylesheet" href="/styles/forms.css">
+    <script src="/scripts/script.js" defer></script>
+</head>
+
+<body>
+  <%- include('includes/header') %>
+    <main>
+      <h1>Update post</h1>
+      <form action="/task/<%= task._id %>/edit" method="POST" enctype="multipart/form-data">
+        <div class="form-control">
+          <label for="title">Title</label>
+          <input type="text" id="title" name="title" value="<%= task.title %>" required>
+        </div>
+        <div class="form-control">
+          <label for="summary">Summary</label>
+          <input type="text" id="summary" name="summary" value="<%= task.summary %>" required maxlength="255">
+        </div>
+        <div class="form-control">
+          <div id="file-label">
+            <label for="file" id="change-file" class="file-update">
+              Change File
+            </label>
+            <span id="file-name">
+              <%= task.orignalName %>
+            </span>
+            <span>
+              <button type="submit" form="fileRemover" id="remove-file" class="file-update">
+                Remove File
+              </button>
+            </span>
+          </div>
+          <div id="file-picker">
+            <label for="file">
+              Choose File
+            </label>
+            <input type="file" name="file" id="file">
+          </div>
+        </div>    
+        <div class="form-control">
+          <label for="desc">Task Content</label>
+          <textarea id="desc" name="desc" required rows="5"><%= task.desc %></textarea>
+        </div>
+        <div class="form-control" id="status">
+          <label for="status">
+            Mark as:
+          </label>
+          <select name="status" id="status">
+            <option value="incomplete">
+              Incomplete
+            </option>
+            <option value="completed">
+              Completed
+            </option>
+          </select>
+          </label>
+        </div>
+        <button class="btn">Update Task</button>
+      </form>
+      <form action="/task/<%= task._id %>/remove-file" id="fileRemover" method="post"></form>
+    </main>
+</body>
+
+</html>

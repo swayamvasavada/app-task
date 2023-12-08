@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <%- include('includes/head', { title: 'All Tasks' }) %>
+    <link rel="stylesheet" href="/styles/tasks.css">
+</head>
+
+<body>
+  <%- include('includes/header') %>
+    <main id="all-task">
+      <h1>All Tasks</h1>
+      <% if (!tasks || tasks.length===0) { %>
+        
+        
+        <p>
+          Oops! there is no task added... You can start adding task here
+        </p>
+        <a href="/add-task" class="btn">
+          Create a New task
+        </a>
+
+
+        <% } else { %>
+          <% var flag_incomplete = 0 %>
+          <% for (const task of tasks) { %>
+            <% if (task.status === 'incomplete') { %>
+              <% flag_incomplete = 1 %>
+            <% } %>
+          <% } %>
+
+         <% if (flag_incomplete === 1) { %>         
+          <h2>
+            Incomplete Task
+          </h2>
+          <hr>  
+          <ol id="task-list">
+            <% for (const task of tasks) { %>
+              <% if (task.status=='incomplete' ) { %>
+                <li>
+                  <%- include('includes/task-item', {task: task}) %>
+                </li>
+              <% } %>
+            <% } %>
+          </ol>
+         <% } %>
+        
+          <% var flag_completed = 0 %>
+          
+          <% for (const task of tasks) { %>
+            <% if (task.status === 'completed') { %>
+              <% flag_completed = 1 %>
+            <% } %>
+          <% } %>
+          
+         <% if (flag_completed === 1) { %>
+          <div>
+            <h2 id="completed-title">
+              Completed Task
+            </h2>
+            <hr>
+            <ol id="task-list">
+              <% for (const task of tasks) { %>
+                <% if (task.status=='completed' ) { %>
+                  <li>
+                    <%- include('includes/task-item', {task: task}) %>
+                  </li>
+                <% } %>
+              <% } %>
+            </ol>
+          </div>
+         <% } %>
+        
+        
+        
+          <% } %>
+    </main>
+</body>
+
+</html>

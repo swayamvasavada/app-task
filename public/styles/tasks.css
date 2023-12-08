@@ -1,0 +1,60 @@
+/* All posts page */
+
+#all-task {
+  text-align: center;
+}
+
+#posts-list {
+  margin: 3rem auto;
+  max-width: 40rem;
+}
+
+.task-item {
+  margin: 1rem 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+  border-radius: 8px;
+  padding: 1rem;
+  background-color: rgb(134, 6, 6);
+}
+
+/* This color is for completed task and will change using dynamic class */
+/* background-color: rgb(16, 99, 41); */
+
+.task-item h2,
+.task-item p {
+  margin: 0.5rem 0;
+}
+
+.task-actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
+.task-actions .btn-alt {
+  padding: 0;
+}
+
+.completed {
+  background-color: rgb(16, 99, 41);
+}
+
+/* Post detail page */
+
+#post-meta {
+  color: rgb(156, 149, 149);
+}
+
+#post-meta address {
+  display: inline;
+}
+
+#post-meta time {
+  font-style: italic;
+}
+
+#body {
+  white-space: pre-wrap;
+  /* This ensures that line breaks and whitespace are kept */
+}
