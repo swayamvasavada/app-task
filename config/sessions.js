@@ -1,10 +1,16 @@
 const mongodbStore = require('connect-mongodb-session');
 
+let mongoUrl = 'mongodb://localhost:27017';
+
+if (process.env.MONGO_URL) {
+    mongoUrl = process.env.MONGO_URL;
+}
+
 function createSessionStore(session) {
     const MongoDBStore = mongodbStore(session);
 
     const sessionStore = new MongoDBStore({
-        uri: 'mongodb://localhost:27017',
+        uri: mongoUrl,
         databaseName: 'app-task',
         collection: 'sessions'
     });
