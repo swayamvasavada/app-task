@@ -7,10 +7,11 @@
     "node": "16.x"
   },
   "scripts": {
-    "start": "nodemon app.js"
+    "start": "node app.js",
+    "devStart": "nodemon app.js"
   },
   "keywords": [],
-  "author": "Maximilian Schwarzmüller (Academind GmbH)",
+  "author": "Swayam Vasavada",
   "license": "MIT",
   "dependencies": {
     "bcryptjs": "^2.4.3",
