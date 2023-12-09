@@ -6,7 +6,7 @@ const db = require('../data/database');
 const ObjectId = mongodb.ObjectId
 
 class Task {
-    constructor(accountId, title, summary, desc, status, filePath, fileName, id) {
+    constructor(accountId, title, summary, desc, status, filePath, fileName, fileId, id) {
         this.accountId = accountId;
         this.title = title;
         this.summary = summary;
@@ -14,6 +14,7 @@ class Task {
         this.status = status;
         this.filePath = filePath;
         this.orignalName = fileName;
+        this.fileId = fileId
         this.id = id;
     }
 
@@ -34,6 +35,7 @@ class Task {
                         title: this.title,
                         summary: this.summary,
                         filePath: this.filePath,
+                        fileId: this.fileId,
                         orignalName: this.orignalName,
                         desc: this.desc,
                         status: this.status,
@@ -57,6 +59,7 @@ class Task {
                 title: this.title,
                 summary: this.summary,
                 filePath: this.filePath,
+                fileId: this.fileId,
                 orignalName: this.orignalName,
                 desc: this.desc,
                 status: this.status,

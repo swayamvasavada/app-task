@@ -22,7 +22,7 @@ async function allTasks(req, res) {
         return res.status(401).redirect('login');
     }
 
-    let tasks = await new Task(res.locals.userId, null, null, null, null, null, null).fetchAll();
+    let tasks = await new Task(res.locals.userId, null, null, null, null, null, null, null).fetchAll();
 
     res.render('task-list', { tasks: tasks });
 }
@@ -53,10 +53,11 @@ async function createTask(req, res) {
         desc: req.body.desc,
         status: req.body.status,
         filePath: uploadedFile.path,
+        fileId: uploadedFile.filename,
         orignalName: uploadedFile.originalname
     };
 
-    await new Task(taskData.accountId, taskData.title, taskData.summary, taskData.desc, taskData.status, taskData.filePath, taskData.orignalName, null).save(0);
+    await new Task(taskData.accountId, taskData.title, taskData.summary, taskData.desc, taskData.status, taskData.filePath, taskData.orignalName, taskData.fileId, null).save(0);
 
     res.redirect('/');
 }
@@ -69,7 +70,7 @@ async function taskDetail(req, res) {
     const taskId = req.params.id;
     const accountId = res.locals.userId;
 
-    const task = await new Task(accountId, null, null, null, null, null, null, taskId).getTask();
+    const task = await new Task(accountId, null, null, null, null, null, null, null, taskId).getTask();
 
     if (JSON.stringify(task.accountId) != JSON.stringify(accountId)) {
         return res.redirect('/'); // Private resources
@@ -87,7 +88,7 @@ async function getUpdateTask(req, res) {
 
     // This will extract id form dynamic link and get list of task
     const taskId = req.params.id;
-    const task = await new Task(null, null, null, null, null, null, null, taskId).getTask();
+    const task = await new Task(null, null, null, null, null, null, null, null, taskId).getTask();
 
     if (JSON.stringify(task.accountId) != JSON.stringify(accountId)) {
         return res.redirect('/'); // Private resources
@@ -99,7 +100,7 @@ async function getUpdateTask(req, res) {
 async function updateTask(req, res) {
 
     const taskId = req.params.id;
-    const task = await new Task(null, null, null, null, null, null, null, taskId).getTask();
+    const task = await new Task(null, null, null, null, null, null, null, null, taskId).getTask();
     // try consoling file path and all data without excuting anything else
     let uploadedFile = req.file;
 
@@ -108,7 +109,7 @@ async function updateTask(req, res) {
         if (task.filePath) {
             if (process.env.CLOUD_NAME) {
 
-                cloudinary.uploader.destroy('')
+                cloudinary.uploader.destroy(task.fileId);
 
             } else {
                 fs.unlink(task.filePath, function (err) {
@@ -132,10 +133,11 @@ async function updateTask(req, res) {
             desc: req.body.desc,
             status: req.body.status,
             filePath: uploadedFile.path,
+            fileId: uploadedFile.filename,
             orignalName: uploadedFile.originalname
         };
 
-        await new Task(taskData.accountId, taskData.title, taskData.summary, taskData.desc, taskData.status, taskData.filePath, taskData.orignalName, taskId).save(1);
+        await new Task(taskData.accountId, taskData.title, taskData.summary, taskData.desc, taskData.status, taskData.filePath, taskData.orignalName, taskData.fileId, taskId).save(1);
     }
 
     else {
@@ -147,7 +149,7 @@ async function updateTask(req, res) {
             status: req.body.status,
         };
 
-        await new Task(taskData.accountId, taskData.title, taskData.summary, taskData.desc, taskData.status, null, null, taskId).save(0);
+        await new Task(taskData.accountId, taskData.title, taskData.summary, taskData.desc, taskData.status, null, null, null, taskId).save(0);
     }
 
     res.redirect('/')
@@ -161,7 +163,7 @@ async function deleteTask(req, res) {
 
     const taskId = req.params.id;
 
-    const task = new Task(null, null, null, null, null, null, null, taskId).deleteTask();
+    const task = new Task(null, null, null, null, null, null, null, null, taskId).deleteTask();
 
     res.redirect('/')
 }
@@ -169,7 +171,7 @@ async function deleteTask(req, res) {
 async function removeFile(req, res) {
     const taskId = req.params.id;
 
-    const task = new Task(null, null, null, null, null, null, null, taskId).removeFile();
+    const task = new Task(null, null, null, null, null, null, null, null, taskId).removeFile();
 
     res.redirect('/task/' + taskId + '/edit');
 }
