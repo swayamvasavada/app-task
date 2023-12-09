@@ -45,7 +45,7 @@ async function createTask(req, res) {
     }
 
     if (process.env.CLOUD_NAME) {
-        cloudinary.v2.uploader.upload(req.file,
+        cloudinary.uploader.upload(req.file,
             { public_id: req.file.originalname },
             function (error, result) { console.log(result); }
         );
