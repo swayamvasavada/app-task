@@ -24,7 +24,7 @@ if (process.env.CLOUD_NAME) {
   });
 
 
-  storageConfig = multer.memoryStorage;
+  storageConfig = new multer.memoryStorage;
   upload = multer({ storage: storageConfig });
 
 }

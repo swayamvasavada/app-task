@@ -3,6 +3,7 @@ var fs = require('fs');
 const db = require('../data/database');
 const ObjectId = mongodb.ObjectId;
 const Task = require('../models/task.model');
+const cloudinary = require('cloudinary').v2;
 const { type } = require('os');
 
 function home(req, res) {
@@ -42,6 +43,14 @@ async function createTask(req, res) {
             orignalname: null
         }
     }
+
+    if (process.env.CLOUD_NAME) {
+        cloudinary.v2.uploader.upload(req.file,
+            { public_id: req.file.originalname },
+            function (error, result) { console.log(result); }
+        );
+    }
+
     const taskData = {
         accountId: new ObjectId(res.locals.userId),
         title: req.body.title,
@@ -150,16 +159,16 @@ async function deleteTask(req, res) {
     }
 
     const taskId = req.params.id;
-    
-    const task = new Task(null, null,null, null, null, null, null, taskId).deleteTask();
+
+    const task = new Task(null, null, null, null, null, null, null, taskId).deleteTask();
 
     res.redirect('/')
 }
 
 async function removeFile(req, res) {
     const taskId = req.params.id;
-    
-    const task = new Task(null, null,null, null, null, null, null, taskId).removeFile();
+
+    const task = new Task(null, null, null, null, null, null, null, taskId).removeFile();
 
     res.redirect('/task/' + taskId + '/edit');
 }
