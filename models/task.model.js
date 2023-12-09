@@ -1,6 +1,6 @@
 const mongodb = require('mongodb');
 var fs = require('fs');
-
+const cloudinary = require('cloudinary').v2;
 const db = require('../data/database');
 
 const ObjectId = mongodb.ObjectId
@@ -81,11 +81,19 @@ class Task {
         const task = await db.getDb().collection('todos').findOne({ _id: new ObjectId(this.id) }, { filePath: 1 });
 
         if (task.filePath) {
-            fs.unlink(task.filePath, function (err) {
-                if (err) {
-                    throw err;
-                }
-            })
+
+            if (process.env.CLOUD_NAME) {
+
+                cloudinary.uploader.destroy(task.fileId);
+
+            } else {
+
+                fs.unlink(task.filePath, function (err) {
+                    if (err) {
+                        throw err;
+                    }
+                })
+            }
         }
 
         const deleteTask = await db.getDb().collection('todos').deleteOne({ _id: new ObjectId(this.id) });
@@ -93,12 +101,16 @@ class Task {
 
     async removeFile() {
         const task = await db.getDb().collection('todos').findOne({ _id: new ObjectId(this.id) }, { filePath: 1 });
-
-        fs.unlink(task.filePath, function (err) {
-            if (err) {
-                throw err;
-            }
-        })
+        if (process.env.CLOUD_NAME) {
+            cloudinary.uploader.destroy(task.fileId);
+        } else {
+            
+            fs.unlink(task.filePath, function (err) {
+                if (err) {
+                    throw err;
+                }
+            })
+        }
 
         await db.getDb().collection('todos').updateOne({ _id: new ObjectId(this.id) }, { $set: { filePath: null, orignalName: null } })
     }
