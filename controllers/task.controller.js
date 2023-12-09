@@ -44,13 +44,6 @@ async function createTask(req, res) {
         }
     }
 
-    if (process.env.CLOUD_NAME) {
-        const b64 = Buffer.from(req.file.buffer).toString("base64");
-        let dataURI = "data:" + req.file.mimetype + ";base64," + b64;
-        const result = await handleUpload(dataURI);
-        console.log(result);
-    }
-
     const taskData = {
         accountId: new ObjectId(res.locals.userId),
         title: req.body.title,

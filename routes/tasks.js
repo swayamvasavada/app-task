@@ -1,6 +1,7 @@
 const express = require('express');
 const multer = require('multer');
 const cloudinary = require('cloudinary').v2;
+const { CloudinaryStorage } = require('multer-storage-cloudinary');
 
 
 const taskController = require('../controllers/task.controller');
@@ -24,7 +25,13 @@ if (process.env.CLOUD_NAME) {
   });
 
 
-  storageConfig = new multer.memoryStorage;
+  storageConfig = new CloudinaryStorage({
+    cloudinary,
+    params: {
+      folder: 'app-task'
+    }
+  });
+  
   upload = multer({ storage: storageConfig });
 
 }
