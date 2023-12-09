@@ -45,10 +45,10 @@ async function createTask(req, res) {
     }
 
     if (process.env.CLOUD_NAME) {
-        cloudinary.uploader.upload(req.file,
-            { public_id: req.file.originalname },
-            function (error, result) { console.log(result); }
-        );
+        const b64 = Buffer.from(req.file.buffer).toString("base64");
+        let dataURI = "data:" + req.file.mimetype + ";base64," + b64;
+        const result = await handleUpload(dataURI);
+        console.log(result);
     }
 
     const taskData = {
