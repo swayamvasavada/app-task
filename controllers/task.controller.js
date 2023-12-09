@@ -5,7 +5,6 @@ const ObjectId = mongodb.ObjectId;
 const Task = require('../models/task.model');
 const cloudinary = require('cloudinary').v2;
 const { type } = require('os');
-const { log } = require('console');
 
 function home(req, res) {
 
@@ -38,7 +37,6 @@ function getCreateTask(req, res) {
 
 async function createTask(req, res) {
     let uploadedFile = req.file;
-    console.log(req.file);
     if (!uploadedFile || uploadedFile == null) {
         uploadedFile = {
             path: null,

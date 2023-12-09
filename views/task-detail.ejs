@@ -12,12 +12,15 @@
     <h1>
       <%= task.title %>
     </h1>
-    <section>
-      <span>
-        File:
-      </span>
-      <a href="<%= task.filePath %>" target="_blank">Open your file</a>
-    </section>
+
+    <% if (task.filePath) { %>
+      <section>
+        <span>
+          File:
+        </span>
+        <a href="<%= task.filePath %>" target="_blank">Open your file</a>
+      </section>
+    <% } %>
     <section>
       <p id="body"><%= task.desc %></p>
     </section>

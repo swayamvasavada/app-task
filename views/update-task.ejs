@@ -21,19 +21,22 @@
           <input type="text" id="summary" name="summary" value="<%= task.summary %>" required maxlength="255">
         </div>
         <div class="form-control">
-          <div id="file-label">
-            <label for="file" id="change-file" class="file-update">
-              Change File
-            </label>
-            <span id="file-name">
-              <%= task.orignalName %>
-            </span>
-            <span>
-              <button type="submit" form="fileRemover" id="remove-file" class="file-update">
-                Remove File
-              </button>
-            </span>
-          </div>
+
+          <% if (task.filePath) { %>
+            <div id="file-label">
+              <label for="file" id="change-file" class="file-update">
+                Change File
+              </label>
+              <span id="file-name">
+                <%= task.orignalName %>
+              </span>
+              <span>
+                <button type="submit" form="fileRemover" id="remove-file" class="file-update">
+                  Remove File
+                </button>
+              </span>
+            </div>
+          <% } %>
           <div id="file-picker">
             <label for="file">
               Choose File
