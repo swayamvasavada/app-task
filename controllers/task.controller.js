@@ -107,6 +107,8 @@ async function updateTask(req, res) {
     if (uploadedFile) {
 
         if (task.filePath) {
+
+            console.log(process.env.CLOUD_NAME);
             if (process.env.CLOUD_NAME) {
 
                 cloudinary.uploader.destroy(task.fileId);
