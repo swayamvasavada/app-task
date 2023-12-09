@@ -5,6 +5,7 @@ const ObjectId = mongodb.ObjectId;
 const Task = require('../models/task.model');
 const cloudinary = require('cloudinary').v2;
 const { type } = require('os');
+const { log } = require('console');
 
 function home(req, res) {
 
@@ -37,6 +38,7 @@ function getCreateTask(req, res) {
 
 async function createTask(req, res) {
     let uploadedFile = req.file;
+    console.log(req.file);
     if (!uploadedFile || uploadedFile == null) {
         uploadedFile = {
             path: null,
@@ -104,15 +106,21 @@ async function updateTask(req, res) {
     if (uploadedFile) {
 
         if (task.filePath) {
-            fs.unlink(task.filePath, function (err) {
-                if (err) {
-                    throw err;
-                }
-            })
+            if (process.env.CLOUD_NAME) {
 
-            if (!uploadedFile || uploadedFile == null) {
-                uploadedFile = {
-                    path: null
+                cloudinary.uploader.destroy('')
+
+            } else {
+                fs.unlink(task.filePath, function (err) {
+                    if (err) {
+                        throw err;
+                    }
+                })
+
+                if (!uploadedFile || uploadedFile == null) {
+                    uploadedFile = {
+                        path: null
+                    }
                 }
             }
         }
