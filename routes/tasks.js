@@ -1,9 +1,11 @@
 const express = require('express');
 const multer = require('multer');
+const cloudinary = require('cloudinary').v2;
+
 
 const taskController = require('../controllers/task.controller');
 
-const storageConfig = multer.diskStorage({
+let storageConfig = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, 'files');
   },
@@ -12,7 +14,20 @@ const storageConfig = multer.diskStorage({
   }
 });
 
-const upload = multer({ storage: storageConfig });
+let upload = multer({ storage: storageConfig });
+
+if (process.env.CLOUD_NAME) {
+  cloudinary.config({
+    cloud_name: process.env.CLOUD_NAME,
+    api_key: process.env.CLOUD_API_KEY,
+    api_secret: process.env.CLOUD_API_SECRET
+  });
+
+
+  storageConfig = multer.memoryStorage;
+  upload = multer({ storage: storageConfig });
+
+}
 const router = express.Router();
 
 
