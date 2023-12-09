@@ -112,7 +112,7 @@ class Task {
             })
         }
 
-        await db.getDb().collection('todos').updateOne({ _id: new ObjectId(this.id) }, { $set: { filePath: null, orignalName: null } })
+        await db.getDb().collection('todos').updateOne({ _id: new ObjectId(this.id) }, { $set: { filePath: null, fileId: null, orignalName: null } })
     }
 
 }
