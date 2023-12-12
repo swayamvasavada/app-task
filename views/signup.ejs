@@ -4,6 +4,7 @@
 <head>
   <%- include('includes/head', { title: 'Sign up' }) %>
     <link rel="stylesheet" href="/styles/forms.css">
+    <script src="https://kit.fontawesome.com/d0fd90be66.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -29,6 +30,14 @@
           <input type="password" id="confirm-password" name="confirm-password" value="<%= inputData.confirmPassword %>" required>
         </div>
         <button class="btn">Create Account</button>
+        <div class="social-login">
+          <a href="/auth/google">
+            <div class="google-btn btn">
+              <i class="fa-brands fa-google"></i>
+              <span>Continue with Google</span>
+            </div>
+          </a>
+        </div>
       </form>
     </main>
 </body>

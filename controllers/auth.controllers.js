@@ -133,10 +133,50 @@ function logout(req, res) {
     res.redirect('/');
 }
 
+async function googleLogin(req, res) {
+    const userEmail = req.user._json.email;
+    let userId;
+    const existingUser = await db.getDb().collection('users').findOne({ email: userEmail });
+
+    if (!existingUser) {
+        try {
+            let user = {
+                email: userEmail,
+                socialLogin: 'google'
+            }
+            const result = await db.getDb().collection('users').insertOne(user);
+            userId = result.insertedId.toString();
+        } catch (error) {
+            console.log(error)
+        }
+    }
+    else {
+        userId = existingUser._id;
+    }
+
+
+    try {
+
+        req.session.user = {
+            id: userId,
+            email: 'swayam.vasavada1505@gmail.com'
+        }
+        req.session.isAuthentic = true;
+    }
+    catch (error) {
+        console.log(error);
+    }
+
+    req.session.save(function () {
+        res.redirect('/tasks');
+    })
+}
+
 module.exports = {
     getSignup: getSignup,
     getLogin: getLogin,
     signUp: signUp,
     login: login,
-    logout: logout
+    logout: logout,
+    googleLogin: googleLogin
 }

@@ -1,17 +1,28 @@
 const path = require('path');
 const express = require('express');
 const session = require('express-session');
+const passport = require('passport');
+const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 const sessionConfig = require('./config/sessions');
 const todoList = require('./routes/tasks');
 const authRoutes = require('./routes/auth');
 const db = require('./data/database');
 const authMiddleware = require('./middleware/auth-middleware');
 
+var userProfile;
+
 let port = 3000;
 
 if (process.env.PORT) {
   port = process.env.PORT;
 }
+else {
+  // To test social login on local environment
+  require('dotenv').config();
+}
+
+const clientID = process.env.GOOGLE_CLIENT_ID;
+const clientSecret = process.env.GOOGLE_CLIENT_SECRET;
 
 const mongodbSessionStore = sessionConfig.createSessionStore(session);
 const app = express();
@@ -26,6 +37,29 @@ app.use('/files', express.static('files')); // Serve user uploaded files to view
 
 app.use(session(sessionConfig.createSessionConfig(mongodbSessionStore)));
 app.use(authMiddleware);
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+
+passport.use(new GoogleStrategy({
+  clientID: clientID,
+  clientSecret: clientSecret,
+  callbackURL: "/auth/google/callback"
+},
+  function (accessToken, refreshToken, profile, done) {
+    userProfile = profile;
+    return done(null, userProfile);
+  }
+));
+
+passport.serializeUser(function (user, cb) {
+  cb(null, user);
+});
+
+passport.deserializeUser(function (obj, cb) {
+  cb(null, obj);
+});
 
 app.use(authRoutes);
 app.use(todoList);
