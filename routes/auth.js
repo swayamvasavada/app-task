@@ -18,7 +18,7 @@ router.post('/logout', authControllers.logout);
 
 router.get('/auth/google', passport.authenticate('google', { scope: ['email'] }));
 
-router.get('/auth/google/callback',
+router.get('https://app-task.cyclic.app/auth/google/callback',
     passport.authenticate('google', { failureRedirect: '/error' }),
     function (req, res) {
         // Successful authentication, redirect success.
